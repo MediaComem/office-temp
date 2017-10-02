@@ -2,6 +2,7 @@ const express = require('express')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const request = require('request');
+const moment = require('moment');
 require('dotenv').config()
 
 const app = express()
@@ -10,6 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.get('/t', function (req, res) {
+	console.log(moment())
 	res.json({test:process.env.MOTHER_USER})
 })
 
@@ -24,8 +26,10 @@ app.get('/', function (req, res) {
     var temperature = obj.objects[0].data.centidegreeCelsius;
     temperature = temperature/100
     console.log(temperature)
-    var dateTook = obj.objects[0].dateEvent
-    res.json({ temperature: temperature, tookAt: dateTook });
+    
+    var dateTook = new Date(obj.objects[0].dateEvent)
+    var time = moment(obj.objects[0].dateEvent).add(2, 'h').locale("fr-ch").format('LLLL');
+    res.json({ temperature: temperature, tookAt: time });
 	})
 })
 
