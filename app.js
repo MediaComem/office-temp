@@ -29,7 +29,7 @@ app.get('/', function (req, res) {
     
     var dateTook = new Date(obj.objects[0].dateEvent)
     var time = moment(obj.objects[0].dateEvent).add(2, 'h').locale("fr-ch").format('LLLL');
-    res.json({ temperature: temperature, tookAt: time });
+    res.json({ temperature: temperature, tookAt: time, text: temperature+"°C mesuré le "+time });
 	})
 })
 
