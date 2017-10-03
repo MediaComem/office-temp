@@ -33,6 +33,23 @@ app.get('/', function (req, res) {
 	})
 })
 
+app.post('/', function (req, res) {
+	var url = 'https://apis.sen.se/v2/feeds/xGkV6BYWpTOKZmuUUyYUViAHtMZYOeCO/events/?limit=1'
+	request(url,{'auth': {'user': process.env.MOTHER_USER,'pass': process.env.MOTHER_PWD}}, function (error, response, body) {
+		console.log("****")
+		console.log("POST")
+		console.log("****")
+		var obj = JSON.parse(body);
+    var temperature = obj.objects[0].data.centidegreeCelsius;
+    temperature = temperature/100
+    console.log(temperature)
+    
+    var dateTook = new Date(obj.objects[0].dateEvent)
+    var time = moment(obj.objects[0].dateEvent).add(2, 'h').locale("fr-ch").format('LLLL');
+    res.json({ text: temperature+"°C mesuré le "+time });
+	})
+})
+
 app.listen(process.env.PORT || 3000, function () {
   console.log('Example app listening on port 3000!')
 })
