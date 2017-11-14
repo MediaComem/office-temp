@@ -15,6 +15,19 @@ app.get('/t', function (req, res) {
 	res.json({test:process.env.MOTHER_USER})
 })
 
+app.post('/alexa', function (req, res) {
+	res.json({ 
+		version: "1.0",
+		response: {
+			"outputSpeech": {
+      	"type": "PlainText",
+      	"text": "Plain text string to speak",
+      	"ssml": "<speak>SSML text string to speak</speak>"
+    	}
+		}
+	});
+})
+
 app.get('/', function (req, res) {
 	var url = 'https://apis.sen.se/v2/feeds/xGkV6BYWpTOKZmuUUyYUViAHtMZYOeCO/events/?limit=1'
 	request(url,{'auth': {'user': process.env.MOTHER_USER,'pass': process.env.MOTHER_PWD}}, function (error, response, body) {
